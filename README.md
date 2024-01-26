@@ -3,7 +3,7 @@
 <summary> <b>Деплой HA кластера на базе Postgresql+Patroni+Citus  в Kubernetes (Yandex Cloud). </b></summary>
 
 За основу проекта была взята статья https://habr.com/ru/companies/otus/articles/755032/  
-Наша цель кластер прtдставленный на рисунке ![](pic/patroni+citus.jpg)  
+Наша цель кластер представленный на рисунке ![](pic/patroni+citus.jpg)  
 Поднимаем инфраструктуру в YC c помощью terraform состоящую кластера Kubernetes (3 ноды имеющие каждая 16Gb memory, 4 CPU).
 
 ```
@@ -27,7 +27,7 @@ docker build -f Dockerfile.citus -t mzabolotnov/patroni-citus-k8s:v1.0 .
 ```
 docker push mzabolotnov/patroni-citus-k8s:v1.0
 ``` 
-берем файлик citus_k8s.yaml и меняем наименование образа в нескольких месах на свой, только что собранный
+берем файлик citus_k8s.yaml и меняем наименование образа в нескольких местах на свой, только что собранный
 ```- name: *cluster_name
      image: mzabolotnov/patroni-citus-k8s:v1.0 
 ```
@@ -48,7 +48,7 @@ citusdemo-2-0   1/1     Running   0          43s   master
 citusdemo-2-1   1/1     Running   0          39s   replica
 
 ```
-Заходим в конейнер citusdemo-0-0 и смотрим конфигурацию кластера patroni. Видим что конфигурация представляет собой как бы три кластера, у каждого свой мастер. Как мы в дальнейшем увидим группа citusdemo-0 - это координатор citus, а citusdemo-1 и citusdemo-2 два воркера.
+Заходим в контейнер citusdemo-0-0 и смотрим конфигурацию кластера patroni. Видим что конфигурация представляет собой как бы три кластера, у каждого свой мастер. Как мы в дальнейшем увидим группа citusdemo-0 - это координатор citus, а citusdemo-1 и citusdemo-2 два воркера.
 ```
 kubectl exec -ti citusdemo-0-0 -- bash
 postgres@citusdemo-0-0:~$ patronictl list
@@ -259,7 +259,7 @@ citus=# SELECT * from citus_shards;
 Time: 25.670 ms
 
 ``` 
-Видим, что таблица распределиласть по трем воркерам.
+Видим, что таблица распределилась по трем воркерам.
 Делаем селект
 ```
 citus=# select count(*) from  uk_price where property_type='S';
@@ -280,4 +280,6 @@ Time: 1248.313 ms (00:01.248)
 ```
 В итоге получаем ![](pic/loadbalancer.jpg)  
 Наш кластер готов.
-В качестве бэкенда предпологается использовать кластер Dataproc из YandexCloud. Создание кластера средстави terraform было сделано в репозитории https://github.com/mzabolotnov/dataproc_yc но только там идет выгрузка в ClickHouse, на PostgreSQL пока руки не дошли. 
+В качестве бэкенда предполагается использовать кластер Dataproc(Spark) из YandexCloud. Создание кластера DataProc средствами terraform было сделано в репозитории https://github.com/mzabolotnov/dataproc_yc но только там идет выгрузка в ClickHouse, на PostgreSQL пока руки не дошли. В итоге должен получится конвеер для обработи и хранения данных.
+
+
