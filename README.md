@@ -1,6 +1,4 @@
-</details>
-<details>
-<summary> <b>Деплой HA кластера на базе Postgresql+Patroni+Citus  в Kubernetes (Yandex Cloud). </b></summary>
+# Деплой HA кластера на базе Postgresql+Patroni+Citus  в Kubernetes (Yandex Cloud). 
 
 За основу проекта была взята статья https://habr.com/ru/companies/otus/articles/755032/  
 Наша цель кластер представленный на рисунке ![](pic/patroni+citus.jpg)  
