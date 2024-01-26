@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-worker
+spec:
+  ports:
+  - port: 5001
+    name: plaintext
+    targetPort: 5432
+  selector:
+    citus-type: worker
+  type: LoadBalancer
